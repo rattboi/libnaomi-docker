@@ -1,4 +1,4 @@
-FROM naomi-toolchain:latest
+FROM rattboi/naomi-toolchain:latest
 
 ARG DRAGONMINDED=/opt/toolchains/naomi/dragonminded
 ARG HBTMP=/tmp/homebrew

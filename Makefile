@@ -10,8 +10,8 @@ check-and-reinit-submodules:
 
 .PHONY: build-toolchain
 build-toolchain: Dockerfile.toolchain
-	docker build . -t rattboi/test-toolchain -f Dockerfile.toolchain
+	docker build . -t rattboi/naomi-toolchain -f Dockerfile.toolchain
 
 .PHONY: build-libnaomi
 build-libnaomi: Dockerfile.libnaomi
-	docker build . -t rattboi/test-libnaomi -f Dockerfile.libnaomi
+	docker build . -t rattboi/naomi-build -f Dockerfile.libnaomi

@@ -1,0 +1,27 @@
+FROM alpine:latest as toolchain
+
+ARG NAOMI_TOOLCHAIN=/opt/toolchains/naomi/
+ENV NAOMI_TC_PATH=${NAOMI_TOOLCHAIN}
+
+RUN  apk --no-cache add --update bash wget xz make build-base texinfo python3
+
+COPY ./netboot/homebrew/setup/ ${NAOMI_TOOLCHAIN}
+COPY ./toolchain/newlib.patch ${NAOMI_TOOLCHAIN}
+
+RUN \
+  cd ${NAOMI_TOOLCHAIN} && \
+  ./download.sh && \
+  ./unpack.sh && \
+  make && \
+  ./cleanup.sh && \
+  rm download.sh unpack.sh cleanup.sh Makefile newlib.patch
+
+WORKDIR ${NAOMI_TOOLCHAIN}
+
+COPY ./toolchain/entrypoint.sh /
+
+# source our env.sh and run whatever command is passed in
+ENTRYPOINT ["/entrypoint.sh"]
+
+# If no command is passed, run an interactive bash shell
+CMD ["/bin/bash"]
