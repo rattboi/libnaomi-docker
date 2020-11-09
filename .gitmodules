@@ -1,0 +1,3 @@
+[submodule "netboot"]
+	path = netboot
+	url = https://github.com/DragonMinded/netboot.git

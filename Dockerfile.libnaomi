@@ -1,0 +1,28 @@
+FROM naomi-toolchain:latest
+
+ARG DRAGONMINDED=/opt/toolchains/naomi/dragonminded
+ARG HBTMP=/tmp/homebrew
+
+COPY netboot/homebrew/ /tmp/homebrew
+COPY netboot/naomi/ /tmp/naomi
+COPY netboot/scripts/ /tmp/scripts
+
+COPY libnaomi/Makefile.libnaomi /tmp/homebrew/libnaomi/Makefile
+COPY libnaomi/Makefile.base /tmp/homebrew/Makefile.base
+
+RUN bash -c "source /entrypoint.sh && \
+    mkdir -p ${DRAGONMINDED}/{lib/libnaomi,include,examples,utils/ldscripts} && \
+    cd ${HBTMP}/libnaomi/ && \
+    make clean all && \
+    cp ${HBTMP}/libnaomi/libnaomi.a ${DRAGONMINDED}/lib/libnaomi && \
+    cp -r ${HBTMP}/libnaomi/naomi ${DRAGONMINDED}/include/naomi && \
+    cp -r ${HBTMP}/examples ${DRAGONMINDED} && \
+    cp ${HBTMP}/Makefile.base ${DRAGONMINDED} && \
+    cp ${HBTMP}/naomi.ld ${DRAGONMINDED}/utils/ldscripts/ && \
+    cp ${HBTMP}/aica.ld ${DRAGONMINDED}/utils/ldscripts/ && \
+    cp -r /tmp/naomi /opt/toolchains/naomi/naomi && \
+    cp -r /tmp/scripts /opt/toolchains/naomi/scripts && \
+    rm -rf /tmp/*"
+
+WORKDIR /src
+
