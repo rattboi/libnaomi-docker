@@ -1,5 +1,4 @@
-# all: check-and-reinit-submodules build-toolchain build-libnaomi
-all: check-and-reinit-submodules build-libnaomi
+all: check-and-reinit-submodules build-toolchain build-libnaomi
 
 .PHONY: check-and-reinit-submodules
 check-and-reinit-submodules:
